@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tetris/block/block.dart';
 import 'package:tetris/tetremino/iblock.dart';
@@ -8,7 +9,6 @@ import 'package:tetris/tetremino/oblock.dart';
 import 'package:tetris/tetremino/tblock.dart';
 import 'package:tetris/tetremino/zblock.dart';
 import 'block/sub_block.dart';
-
 
 const GAME_AREA_BORDER = 2.0;
 enum Collision { BOTTOM_LANDED, LANDED_BLOCK, WALL, HIT_BLOCK, NONE }
@@ -44,30 +44,28 @@ class TetrisGameState extends State<TetrisGame> {
   void playGame(timer) {
     var status = Collision.NONE;
     setState(() {
-
       // Block Direction
-      if(action != null){
+      if (action != null) {
         block.move(action);
       }
 
       // Are there any blocks colliding on the horizontal axis ?
       blockCheckHorizontal();
 
-      if(!blockBottomCollision()){
-        if(!blockLandedCollision()){
+      if (!blockBottomCollision()) {
+        if (!blockLandedCollision()) {
           block.move(BlockMovement.DOWN);
-        }else{
+        } else {
           status = Collision.LANDED_BLOCK;
         }
-      }else{
+      } else {
         status = Collision.BOTTOM_LANDED;
       }
 
-
-      if(status == Collision.BOTTOM_LANDED || status == Collision.LANDED_BLOCK){
-
+      if (status == Collision.BOTTOM_LANDED ||
+          status == Collision.LANDED_BLOCK) {
         // old subBlocks
-        block.subBlocks.forEach((subBlock){
+        block.subBlocks.forEach((subBlock) {
           subBlock.x += block.x;
           subBlock.y += block.y;
           previousSubBlocks.add(subBlock);
@@ -77,18 +75,19 @@ class TetrisGameState extends State<TetrisGame> {
         block = newBlock();
       }
 
-      action = null;
+      gameOver();
 
+      action = null;
     });
   }
 
-  void blockCheckHorizontal(){
-    for(var oldSubBlock in previousSubBlocks){
-      for(var subBlock in block.subBlocks){
+  void blockCheckHorizontal() {
+    for (var oldSubBlock in previousSubBlocks) {
+      for (var subBlock in block.subBlocks) {
         var x = block.x + subBlock.x;
         var y = block.y + subBlock.y;
-        if(x == oldSubBlock.x && y == oldSubBlock.y){
-          switch(action){
+        if (x == oldSubBlock.x && y == oldSubBlock.y) {
+          switch (action) {
             case BlockMovement.LEFT:
               block.move(BlockMovement.RIGHT);
               break;
@@ -106,55 +105,99 @@ class TetrisGameState extends State<TetrisGame> {
     }
   }
 
-  void deleteRow(int rowIndex){
+  void deleteRow(int rowIndex) {
     // max rowIndex 14
     setState(() {
       previousSubBlocks.removeWhere((subBlock) => subBlock.y == rowIndex);
 
       previousSubBlocks.forEach((subBlock) {
-        if(subBlock.y < BOARD_HEIGHT){
+        if (subBlock.y < BOARD_HEIGHT) {
           subBlock.y++;
         }
       });
 
       score++;
-
     });
   }
 
-  void deleteFullRow(){
-   for(int row = 0; row < BOARD_HEIGHT; row++){
-     int counter = 0;
-     previousSubBlocks.forEach((subBlock) {
-       if(subBlock.y == row){
-         counter++;
-       }
-     });
+  void deleteFullRow() {
+    for (int row = 0; row < BOARD_HEIGHT; row++) {
+      int counter = 0;
+      previousSubBlocks.forEach((subBlock) {
+        if (subBlock.y == row) {
+          counter++;
+        }
+      });
 
-     if(counter == BOARD_WIDTH){
-       deleteRow(row);
-     }
-
-   }
+      if (counter == BOARD_WIDTH) {
+        deleteRow(row);
+      }
+    }
   }
 
-  void moveLeft(){
-    if(block.x != 0){
+  void gameOver() {
+    previousSubBlocks.forEach((subBlock) {
+      if (subBlock.y == 0) {
+        timer.cancel();
+        return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return dialog(context);
+            });
+      }
+    });
+  }
+
+  Widget dialog(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+      backgroundColor: Colors.white70,
+      title: Text(
+        "Game Over",
+        style: TextStyle(
+            fontSize: 26, color: Colors.indigo, fontWeight: FontWeight.bold),
+      ),
+      content: Text("Score : $score",
+          style: TextStyle(fontSize: 24, color: Colors.indigo.shade900)),
+      actions: [restartButton(context)],
+    );
+  }
+
+  Widget restartButton(context) {
+    return FlatButton(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+      color: Colors.indigoAccent,
+      child: Text(
+        "Restart Game",
+        style: TextStyle(
+          fontSize: 20,
+          color: Colors.white70,
+        ),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  void moveLeft() {
+    if (block.x != 0) {
       action = BlockMovement.LEFT;
     }
   }
 
-  void moveRight(){
-    if(!(block.x + block.width > screen_width / 40)){
+  void moveRight() {
+    if (!(block.x + block.width > screen_width / 40)) {
       action = BlockMovement.RIGHT;
     }
   }
 
-
   void moveRotate() {
-      if (!(block.x + block.width > screen_width / 40)) {
-        action = BlockMovement.ROTATE;
-      }
+    if (!(block.x + block.width > screen_width / 40)) {
+      action = BlockMovement.ROTATE;
+    }
   }
 
   Block newBlock() {
@@ -182,12 +225,12 @@ class TetrisGameState extends State<TetrisGame> {
     }
   }
 
-  bool blockLandedCollision(){
-    for(var oldSubBlock in previousSubBlocks){
-      for(var subBlock in block.subBlocks){
+  bool blockLandedCollision() {
+    for (var oldSubBlock in previousSubBlocks) {
+      for (var subBlock in block.subBlocks) {
         var x = block.x + subBlock.x;
         var y = block.y + subBlock.y;
-        if(x == oldSubBlock.x && y + 1 == oldSubBlock.y){
+        if (x == oldSubBlock.x && y + 1 == oldSubBlock.y) {
           return true;
         }
       }
@@ -195,9 +238,9 @@ class TetrisGameState extends State<TetrisGame> {
     return false;
   }
 
- bool blockBottomCollision(){
+  bool blockBottomCollision() {
     return block.y + block.height == screen_height / 40;
- }
+  }
 
   Widget blockSquare(Color color, int x, int y) {
     return Positioned(
@@ -207,9 +250,7 @@ class TetrisGameState extends State<TetrisGame> {
         width: 35.0,
         height: 35.0,
         decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.all(Radius.circular(10))
-        ),
+            color: color, borderRadius: BorderRadius.all(Radius.circular(5))),
       ),
     );
   }
@@ -225,14 +266,14 @@ class TetrisGameState extends State<TetrisGame> {
 
     // old subBlocks
     previousSubBlocks.forEach((previousSubBlock) {
-      subBlockPosition.add(blockSquare(previousSubBlock.color, previousSubBlock.x, previousSubBlock.y));
+      subBlockPosition.add(blockSquare(
+          previousSubBlock.color, previousSubBlock.x, previousSubBlock.y));
     });
 
     return Stack(
       children: subBlockPosition,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
