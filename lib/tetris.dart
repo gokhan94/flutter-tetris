@@ -1,8 +1,9 @@
 import 'dart:math';
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tetris/block/block.dart';
+import 'package:tetris/score_counter.dart';
 import 'package:tetris/tetremino/iblock.dart';
 import 'package:tetris/tetremino/jblock.dart';
 import 'package:tetris/tetremino/oblock.dart';
@@ -29,10 +30,10 @@ class TetrisGameState extends State<TetrisGame> {
   Block block;
   Timer timer;
   List<SubBlock> previousSubBlocks;
-  int score;
+  int score = 0;
 
   void gameStart() {
-    score = 0;
+    Provider.of<Counter>(context, listen: false).setScore(score);
     previousSubBlocks = List<SubBlock>();
     block = newBlock();
     timer = Timer.periodic(Duration(milliseconds: 350), (timer) {
@@ -116,7 +117,7 @@ class TetrisGameState extends State<TetrisGame> {
         }
       });
 
-      score++;
+      Provider.of<Counter>(context, listen: false).scoreIncrement(score += 1);
     });
   }
 

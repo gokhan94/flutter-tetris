@@ -1,17 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tetris/score_counter.dart';
 
 class Score extends StatefulWidget {
   @override
   _ScoreState createState() => _ScoreState();
-
-  final score;
-
-  Score({this.score});
 }
 
 class _ScoreState extends State<Score> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,7 +29,7 @@ class _ScoreState extends State<Score> {
               height: 10,
             ),
             Text(
-              "0",
+              '${Provider.of<Counter>(context).score}',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,

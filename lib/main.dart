@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tetris/score_counter.dart';
 import 'package:tetris/tetris.dart';
 import 'package:tetris/widget/next_block.dart';
 import 'package:tetris/widget/score.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(ChangeNotifierProvider<Counter>(
+      create: (context) => Counter(0),
+      child: MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
   @override
@@ -22,7 +27,6 @@ class Tetris extends StatefulWidget {
 
 class _TetrisState extends State<Tetris> {
   GlobalKey<TetrisGameState> _keyGame = GlobalKey();
-  var score = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +48,9 @@ class _TetrisState extends State<Tetris> {
                     flex: 4,
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: TetrisGame(key: _keyGame,),
+                      child: TetrisGame(
+                        key: _keyGame,
+                      ),
                     )),
                 Flexible(
                     flex: 1,
@@ -69,8 +75,10 @@ class _TetrisState extends State<Tetris> {
                               ),
                               color: Colors.indigo.shade800,
                             ),
-                            SizedBox(height: 50,),
-                            Score(score: score),
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Score(),
                           ],
                         )))
               ],
@@ -95,7 +103,9 @@ class _TetrisState extends State<Tetris> {
                     color: Colors.indigo.shade800,
                   ),
                 ),
-                SizedBox(width: 1,),
+                SizedBox(
+                  width: 1,
+                ),
                 Expanded(
                   child: FlatButton(
                     onPressed: () {
@@ -111,7 +121,9 @@ class _TetrisState extends State<Tetris> {
                     color: Colors.indigo.shade800,
                   ),
                 ),
-                SizedBox(width: 1,),
+                SizedBox(
+                  width: 1,
+                ),
                 Expanded(
                   child: FlatButton(
                     onPressed: () {
