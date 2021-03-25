@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tetris/score_counter.dart';
 import 'package:tetris/tetris.dart';
-import 'package:tetris/widget/next_block.dart';
-import 'package:tetris/widget/score.dart';
+import 'package:tetris/widget/score_display.dart';
 
 void main() => runApp(ChangeNotifierProvider<Counter>(
       create: (context) => Counter(0),
@@ -32,11 +31,11 @@ class _TetrisState extends State<Tetris> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tetris Game"),
+        title: Text("Flutter Tetris Game", style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),),
         centerTitle: true,
-        backgroundColor: Colors.indigoAccent.shade50,
+        backgroundColor: Colors.yellow.shade700,
       ),
-      backgroundColor: Colors.indigoAccent,
+      backgroundColor: Colors.yellow.shade200,
       body: Column(
         children: [
           //Score(),
@@ -58,11 +57,16 @@ class _TetrisState extends State<Tetris> {
                         padding: const EdgeInsets.all(4.0),
                         child: Column(
                           children: [
-                            NextBlock(),
+                            ScoreDisplay(),
                             SizedBox(
                               height: 50,
                             ),
                             FlatButton(
+                              shape: CircleBorder(),
+                              height: 70,
+                             /* shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),*/
                               onPressed: () {
                                 setState(() {
                                   _keyGame.currentState.gameStart();
@@ -71,14 +75,13 @@ class _TetrisState extends State<Tetris> {
                               child: Text(
                                 "Start",
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                                    color: Colors.white, fontSize: 19),
                               ),
-                              color: Colors.indigo.shade800,
+                              color: Colors.green.shade800,
                             ),
                             SizedBox(
                               height: 50,
                             ),
-                            Score(),
                           ],
                         )))
               ],
@@ -90,6 +93,9 @@ class _TetrisState extends State<Tetris> {
               children: [
                 Expanded(
                   child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     onPressed: () {
                       setState(() {
                         _keyGame.currentState.moveLeft();
@@ -100,32 +106,38 @@ class _TetrisState extends State<Tetris> {
                       size: 40,
                       color: Colors.white,
                     ),
-                    color: Colors.indigo.shade800,
+                    color: Colors.yellow.shade900,
                   ),
                 ),
                 SizedBox(
-                  width: 1,
+                  width: 4,
                 ),
                 Expanded(
                   child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     onPressed: () {
                       setState(() {
                         _keyGame.currentState.moveRotate();
                       });
                     },
                     child: Icon(
-                      Icons.rotate_left_outlined,
+                      Icons.rotate_right,
                       size: 40,
                       color: Colors.white,
                     ),
-                    color: Colors.indigo.shade800,
+                    color: Colors.orange.shade900,
                   ),
                 ),
                 SizedBox(
-                  width: 1,
+                  width: 4,
                 ),
                 Expanded(
                   child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     onPressed: () {
                       setState(() {
                         _keyGame.currentState.moveRight();
@@ -136,7 +148,7 @@ class _TetrisState extends State<Tetris> {
                       size: 40,
                       color: Colors.white,
                     ),
-                    color: Colors.indigo.shade800,
+                    color: Colors.yellow.shade900,
                   ),
                 ),
               ],

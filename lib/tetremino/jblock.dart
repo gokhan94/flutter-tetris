@@ -9,5 +9,5 @@ class JBlock extends Block {
     [SubBlock(0, 0), SubBlock(0, 1), SubBlock(1, 1), SubBlock(2, 1)],
     [SubBlock(0, 0), SubBlock(1, 0), SubBlock(0, 1), SubBlock(0, 2)],
     [SubBlock(0, 0), SubBlock(1, 0), SubBlock(2, 0), SubBlock(2, 1)],
-  ], Colors.yellow[200], rotationIndex);
+  ], Colors.green, rotationIndex);
 }

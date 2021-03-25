@@ -9,5 +9,5 @@ class OBlock extends Block {
     [SubBlock(0, 0), SubBlock(1, 0), SubBlock(0, 1), SubBlock(1, 1)],
     [SubBlock(0, 0), SubBlock(1, 0), SubBlock(0, 1), SubBlock(1, 1)],
     [SubBlock(0, 0), SubBlock(1, 0), SubBlock(0, 1), SubBlock(1, 1)],
-  ], Colors.deepOrange[300], rotationIndex);
+  ], Colors.deepOrange[500], rotationIndex);
 }

@@ -9,5 +9,5 @@ class ZBlock extends Block {
     [SubBlock(1, 0), SubBlock(0, 1), SubBlock(1, 1), SubBlock(0, 2)],
     [SubBlock(0, 0), SubBlock(1, 0), SubBlock(1, 1), SubBlock(2, 1)],
     [SubBlock(1, 0), SubBlock(0, 1), SubBlock(1, 1), SubBlock(0, 2)],
-  ], Colors.cyan[200], rotationIndex);
+  ], Colors.cyan[400], rotationIndex);
 }

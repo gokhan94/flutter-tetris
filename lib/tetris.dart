@@ -109,11 +109,12 @@ class TetrisGameState extends State<TetrisGame> {
   void deleteRow(int rowIndex) {
     // max rowIndex 14
     setState(() {
+      print(rowIndex);
       previousSubBlocks.removeWhere((subBlock) => subBlock.y == rowIndex);
 
       previousSubBlocks.forEach((subBlock) {
-        if (subBlock.y < BOARD_HEIGHT) {
-          subBlock.y++;
+        if (subBlock.y < rowIndex) {
+          subBlock.y += 1;
         }
       });
 
@@ -130,8 +131,9 @@ class TetrisGameState extends State<TetrisGame> {
         }
       });
 
-      if (counter == BOARD_WIDTH) {
+      if (counter >= BOARD_WIDTH) {
         deleteRow(row);
+        print(row); // max 14
       }
     }
   }
@@ -282,7 +284,7 @@ class TetrisGameState extends State<TetrisGame> {
         width: screen_width.toDouble(),
         height: screen_height.toDouble(),
         decoration: BoxDecoration(
-            color: Colors.indigoAccent.shade400,
+            color: Colors.white70,
             border: Border.all(width: GAME_AREA_BORDER, color: Colors.black54),
             borderRadius: BorderRadius.all(Radius.circular(5))),
         child: drawBlock());
