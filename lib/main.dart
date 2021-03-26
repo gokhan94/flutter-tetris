@@ -79,6 +79,7 @@ class _TetrisState extends State<Tetris> {
                               ),
                               color: Colors.green.shade800,
                             ),
+
                             SizedBox(
                               height: 50,
                             ),

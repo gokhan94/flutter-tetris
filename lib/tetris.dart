@@ -31,8 +31,10 @@ class TetrisGameState extends State<TetrisGame> {
   Timer timer;
   List<SubBlock> previousSubBlocks;
   int score = 0;
+  bool isPlaying = false;
 
   void gameStart() {
+    isPlaying = true;
     Provider.of<Counter>(context, listen: false).setScore(score);
     previousSubBlocks = List<SubBlock>();
     block = newBlock();
@@ -181,24 +183,25 @@ class TetrisGameState extends State<TetrisGame> {
       ),
       onPressed: () {
         Navigator.of(context).pop();
+        Provider.of<Counter>(context, listen: false).setScore(score);
       },
     );
   }
 
   void moveLeft() {
-    if (block.x != 0) {
+    if (isPlaying && block.x != 0) {
       action = BlockMovement.LEFT;
     }
   }
 
   void moveRight() {
-    if (!(block.x + block.width > screen_width / 40)) {
+    if (isPlaying && !(block.x + block.width > screen_width / 40)) {
       action = BlockMovement.RIGHT;
     }
   }
 
   void moveRotate() {
-    if (!(block.x + block.width > screen_width / 40)) {
+    if (isPlaying && !(block.x + block.width > screen_width / 40)) {
       action = BlockMovement.ROTATE;
     }
   }
