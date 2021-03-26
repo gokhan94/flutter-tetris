@@ -1,4 +1,4 @@
-# tetris
+# flutter tetris
 
 A new Flutter application.
 
