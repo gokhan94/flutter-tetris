@@ -12,7 +12,7 @@ import 'package:tetris/tetremino/zblock.dart';
 import 'block/sub_block.dart';
 
 const GAME_AREA_BORDER = 2.0;
-enum Collision { BOTTOM_LANDED, LANDED_BLOCK, WALL, HIT_BLOCK, NONE }
+enum Collision { BOTTOM_LANDED, LANDED_BLOCK, HIT_BLOCK, NONE }
 const int BOARD_WIDTH = 9;
 const int BOARD_HEIGHT = 15;
 
