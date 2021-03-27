@@ -13,8 +13,8 @@ import 'block/sub_block.dart';
 
 const GAME_AREA_BORDER = 2.0;
 enum Collision { BOTTOM_LANDED, LANDED_BLOCK, HIT_BLOCK, NONE }
-const int BOARD_WIDTH = 9;
-const int BOARD_HEIGHT = 15;
+const int BOARD_WIDTH = 10;
+const int BOARD_HEIGHT = 16;
 
 class TetrisGame extends StatefulWidget {
   TetrisGame({Key key}) : super(key: key);
@@ -23,8 +23,8 @@ class TetrisGame extends StatefulWidget {
 }
 
 class TetrisGameState extends State<TetrisGame> {
-  static const screen_width = 320;
-  static const screen_height = 600;
+  static const screen_width = 300;
+  static const screen_height = 480;
 
   BlockMovement action;
   Block block;
@@ -130,12 +130,13 @@ class TetrisGameState extends State<TetrisGame> {
       previousSubBlocks.forEach((subBlock) {
         if (subBlock.y == row) {
           counter++;
+          //print(counter);
         }
       });
 
-      if (counter >= BOARD_WIDTH) {
+      if (counter == BOARD_WIDTH) {
         deleteRow(row);
-        print(row); // max 14
+        //print(row); // max 14
       }
     }
   }
@@ -183,7 +184,7 @@ class TetrisGameState extends State<TetrisGame> {
       ),
       onPressed: () {
         Navigator.of(context).pop();
-        Provider.of<Counter>(context, listen: false).setScore(score);
+        score = 0;
       },
     );
   }
@@ -195,13 +196,13 @@ class TetrisGameState extends State<TetrisGame> {
   }
 
   void moveRight() {
-    if (isPlaying && !(block.x + block.width > screen_width / 40)) {
+    if (isPlaying && !(block.x + block.width >= screen_width / 30)) {
       action = BlockMovement.RIGHT;
     }
   }
 
   void moveRotate() {
-    if (isPlaying && !(block.x + block.width > screen_width / 40)) {
+    if (isPlaying && !(block.x + block.width > screen_width / 30)) {
       action = BlockMovement.ROTATE;
     }
   }
@@ -245,18 +246,19 @@ class TetrisGameState extends State<TetrisGame> {
   }
 
   bool blockBottomCollision() {
-    return block.y + block.height == screen_height / 40;
+    return block.y + block.height == screen_height / 30;
   }
 
   Widget blockSquare(Color color, int x, int y) {
     return Positioned(
-      left: x * 35.0,
-      top: y * 35.0,
+      left: x * 30.0,
+      top: y * 30.0,
       child: Container(
-        width: 35.0,
-        height: 35.0,
+        width: 30.0,
+        height: 30.0,
         decoration: BoxDecoration(
-            color: color, borderRadius: BorderRadius.all(Radius.circular(5))),
+            color: color, borderRadius: BorderRadius.all(Radius.circular(2))
+        ),
       ),
     );
   }
@@ -289,7 +291,9 @@ class TetrisGameState extends State<TetrisGame> {
         decoration: BoxDecoration(
             color: Colors.white70,
             border: Border.all(width: GAME_AREA_BORDER, color: Colors.black54),
-            borderRadius: BorderRadius.all(Radius.circular(5))),
+            borderRadius: BorderRadius.all(Radius.circular(5)
+            )
+        ),
         child: drawBlock());
   }
 }

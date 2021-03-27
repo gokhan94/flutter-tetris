@@ -31,40 +31,46 @@ class _TetrisState extends State<Tetris> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Flutter Tetris Game", style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),),
+        title: Text(
+          "Flutter Tetris Game",
+          style: TextStyle(
+              fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         backgroundColor: Colors.yellow.shade700,
       ),
       backgroundColor: Colors.yellow.shade200,
       body: Column(
         children: [
-          //Score(),
           Expanded(
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              //crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
                     flex: 4,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: TetrisGame(
-                        key: _keyGame,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: TetrisGame(
+                          key: _keyGame,
+                        ),
                       ),
                     )),
                 Flexible(
                     flex: 1,
                     child: Padding(
-                        padding: const EdgeInsets.all(4.0),
+                        padding: EdgeInsets.only(right: 5),
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ScoreDisplay(),
                             SizedBox(
-                              height: 50,
+                              height: 100,
                             ),
                             FlatButton(
                               shape: CircleBorder(),
                               height: 70,
-                             /* shape: RoundedRectangleBorder(
+                              /* shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),*/
                               onPressed: () {
@@ -79,7 +85,6 @@ class _TetrisState extends State<Tetris> {
                               ),
                               color: Colors.green.shade800,
                             ),
-
                             SizedBox(
                               height: 50,
                             ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tetris/score_counter.dart';
@@ -23,7 +24,7 @@ class _ScoreDisplayState extends State<ScoreDisplay> {
             style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 18),
           ),
           SizedBox(
-            height: 5,
+            height: 10,
           ),
           AspectRatio(
             aspectRatio: 1,
