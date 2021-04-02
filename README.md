@@ -1,6 +1,5 @@
 # flutter tetris
 
-A new Flutter application.
 
 <img src="https://user-images.githubusercontent.com/6280643/113416992-28f94100-93cb-11eb-8358-18534edc238a.png" width="350" height="600">    <img src="https://user-images.githubusercontent.com/6280643/113416997-2dbdf500-93cb-11eb-9747-e7bcd6ee7a48.png" width="350" height="600">
 
